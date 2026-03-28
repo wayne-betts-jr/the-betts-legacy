@@ -502,29 +502,7 @@
 
 <script>
   window.addEventListener('DOMContentLoaded', function() {
-    var gate = document.getElementById('gate');
-    var form = document.getElementById('gate-form');
-    var input = document.getElementById('gate-input');
-    var error = document.getElementById('gate-error');
-
-    if (sessionStorage.getItem('betts-auth') === 'true') {
-      gate.style.display = 'none';
-      return;
-    }
-
-    function tryUnlock() {
-      if (input.value.trim().toLowerCase() === 'gardner') {
-        sessionStorage.setItem('betts-auth', 'true');
-        gate.style.display = 'none';
-      } else {
-        error.style.opacity = '1';
-        input.value = '';
-        input.focus();
-        setTimeout(function() { error.style.opacity = '0'; }, 2000);
-      }
-    }
-
-    form.addEventListener('submit', tryUnlock);
+    document.getElementById('gate').style.display = 'none';
   });
 </script>
 
