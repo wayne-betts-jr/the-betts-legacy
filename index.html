@@ -290,7 +290,28 @@
   .era-block:nth-child(3) { animation-delay: 0.2s; }
   .era-block:nth-child(4) { animation-delay: 0.25s; }
 
+  .siblings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .person.branch {
+    background: var(--bg);
+    border-style: dashed;
+  }
+
+  .branch-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
   @media (max-width: 640px) {
+    .siblings { grid-template-columns: 1fr; }
     .person { padding: 20px 18px 18px; }
     .gen-badge { display: none; }
     .hero { min-height: 40vh; padding: 56px 20px 44px; }
@@ -388,37 +409,39 @@
   <div class="gate-crest">&#9884;</div>
   <h2>The Betts Legacy</h2>
   <p>Family access only</p>
-  <input type="password" id="gate-input" placeholder="Enter passphrase" autocomplete="off" />
-  <button onclick="checkPassword()">Enter</button>
+  <form id="gate-form" onsubmit="return false;">
+    <input type="password" id="gate-input" placeholder="Enter passphrase" autocomplete="off" />
+    <button type="submit">Enter</button>
+  </form>
   <div class="gate-error" id="gate-error">Incorrect passphrase</div>
 </div>
 
 <script>
-  (function() {
-    if (sessionStorage.getItem('betts-auth') === 'true') {
-      document.getElementById('gate').style.display = 'none';
-    }
-    document.getElementById('gate-input').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') checkPassword();
-    });
-  })();
-
-  function checkPassword() {
+  window.addEventListener('DOMContentLoaded', function() {
+    var gate = document.getElementById('gate');
+    var form = document.getElementById('gate-form');
     var input = document.getElementById('gate-input');
     var error = document.getElementById('gate-error');
-    if (input.value === 'gardner') {
-      sessionStorage.setItem('betts-auth', 'true');
-      document.getElementById('gate').style.display = 'none';
-    } else {
-      input.classList.add('error');
-      error.classList.add('visible');
-      input.value = '';
-      setTimeout(function() {
-        input.classList.remove('error');
-        error.classList.remove('visible');
-      }, 2000);
+
+    if (sessionStorage.getItem('betts-auth') === 'true') {
+      gate.style.display = 'none';
+      return;
     }
-  }
+
+    function tryUnlock() {
+      if (input.value.trim().toLowerCase() === 'gardner') {
+        sessionStorage.setItem('betts-auth', 'true');
+        gate.style.display = 'none';
+      } else {
+        error.style.opacity = '1';
+        input.value = '';
+        input.focus();
+        setTimeout(function() { error.style.opacity = '0'; }, 2000);
+      }
+    }
+
+    form.addEventListener('submit', tryUnlock);
+  });
 </script>
 
 <header class="hero">
@@ -684,16 +707,61 @@
 
     <div class="connector"><div class="connector-line"></div></div>
 
-    <div class="person">
-      <div class="gen-badge">Gen XIV</div>
-      <div class="person-header">
-        <h3>Wayne Gardner Betts, Jr.</h3>
+    <div class="siblings">
+      <div class="person">
+        <div class="gen-badge">Gen XIV</div>
+        <div class="branch-label">First Son</div>
+        <div class="person-header">
+          <h3>Wayne Gardner Betts, Jr.</h3>
+        </div>
+        <p>The current steward of the Betts family legacy — carrying the line into its fifteenth generation.</p>
+        <div class="milestones">
+          <span class="milestone highlight">Current Steward</span>
+        </div>
       </div>
-      <p>The current steward of the Betts family legacy — fourteen generations from an English village to the present day.</p>
-      <div class="milestones">
-        <span class="milestone highlight">Current Generation</span>
+
+      <div class="person branch">
+        <div class="gen-badge">Gen XIV</div>
+        <div class="branch-label">Second Son</div>
+        <div class="person-header">
+          <h3>Adam Betts</h3>
+          <span class="year-range">b. 1983</span>
+        </div>
+        <div class="milestones">
+          <span class="milestone">March 8, 1983</span>
+        </div>
       </div>
     </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="siblings">
+      <div class="person">
+        <div class="gen-badge">Gen XV</div>
+        <div class="branch-label">First Son</div>
+        <div class="person-header">
+          <h3>Harrison Aubry Betts</h3>
+          <span class="year-range">b. 2017</span>
+        </div>
+        <div class="milestones">
+          <span class="milestone">April 8, 2017</span>
+        </div>
+      </div>
+
+      <div class="person">
+        <div class="gen-badge">Gen XV</div>
+        <div class="branch-label">Second Son</div>
+        <div class="person-header">
+          <h3>Wayne Aidan Betts</h3>
+          <span class="year-range">b. 2024</span>
+        </div>
+        <div class="milestones">
+          <span class="milestone highlight">Newest Generation</span>
+          <span class="milestone">December 1, 2024</span>
+        </div>
+      </div>
+    </div>
+
   </section>
 
 </main>
