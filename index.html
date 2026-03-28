@@ -295,9 +295,131 @@
     .gen-badge { display: none; }
     .hero { min-height: 40vh; padding: 56px 20px 44px; }
   }
+
+  /* Password gate */
+  #gate {
+    position: fixed;
+    inset: 0;
+    background: var(--bg-warm);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  #gate .gate-crest {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    color: var(--accent);
+    margin-bottom: 20px;
+  }
+
+  #gate h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 28px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  #gate p {
+    font-size: 13.5px;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  #gate input {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 12px 18px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink);
+    width: 100%;
+    max-width: 320px;
+    outline: none;
+    text-align: center;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+
+  #gate input:focus { border-color: var(--accent); }
+
+  #gate input.error { border-color: #c0392b; }
+
+  #gate button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 11px 28px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 320px;
+    transition: background 0.2s;
+  }
+
+  #gate button:hover { background: var(--accent-dark); }
+
+  #gate .gate-error {
+    font-size: 12.5px;
+    color: #c0392b;
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  #gate .gate-error.visible { opacity: 1; }
 </style>
 </head>
 <body>
+
+<div id="gate">
+  <div class="gate-crest">&#9884;</div>
+  <h2>The Betts Legacy</h2>
+  <p>Family access only</p>
+  <input type="password" id="gate-input" placeholder="Enter passphrase" autocomplete="off" />
+  <button onclick="checkPassword()">Enter</button>
+  <div class="gate-error" id="gate-error">Incorrect passphrase</div>
+</div>
+
+<script>
+  (function() {
+    if (sessionStorage.getItem('betts-auth') === 'true') {
+      document.getElementById('gate').style.display = 'none';
+    }
+    document.getElementById('gate-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+  })();
+
+  function checkPassword() {
+    var input = document.getElementById('gate-input');
+    var error = document.getElementById('gate-error');
+    if (input.value === 'betts1639') {
+      sessionStorage.setItem('betts-auth', 'true');
+      document.getElementById('gate').style.display = 'none';
+    } else {
+      input.classList.add('error');
+      error.classList.add('visible');
+      input.value = '';
+      setTimeout(function() {
+        input.classList.remove('error');
+        error.classList.remove('visible');
+      }, 2000);
+    }
+  }
+</script>
 
 <header class="hero">
   <div class="hero-eyebrow">A Family Chronicle</div>
