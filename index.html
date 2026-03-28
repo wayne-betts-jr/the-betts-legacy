@@ -35,9 +35,21 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
+  /* iOS Safari overscroll at top shows this element's color */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -100px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: var(--bg-warm);
+    z-index: -1;
+  }
+
   body {
     font-family: 'DM Sans', sans-serif;
-    background: var(--bg-warm);
+    background: var(--bg);
     color: var(--ink);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -116,7 +128,7 @@
     background: var(--line);
   }
 
-  .eras { background: var(--bg); padding-bottom: 100px; }
+  .eras { padding-bottom: 100px; }
 
   .era-block {
     max-width: 860px;
@@ -276,7 +288,6 @@
     text-align: center;
     padding: 56px 24px;
     border-top: 1px solid var(--line);
-    background: var(--bg);
   }
 
   .footer .crest {
