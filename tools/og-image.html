@@ -20,14 +20,6 @@ body { background: #faf8f5; }
   overflow: hidden;
 }
 
-/* Subtle warm vignette */
-#og::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(28,25,23,0.04) 100%);
-}
-
 /* Corner marks */
 .corner { position: absolute; width: 32px; height: 32px; opacity: 0.2; }
 .corner-tl { top: 40px; left: 40px; border-top: 1px solid #8b5e0b; border-left: 1px solid #8b5e0b; }
