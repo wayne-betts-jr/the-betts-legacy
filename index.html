@@ -369,11 +369,36 @@
   .tab-panel.active { display: block; }
 
   @media (max-width: 640px) {
+    /* Layout */
     .siblings { grid-template-columns: 1fr; }
     .siblings-sub { grid-template-columns: 1fr; }
-    .person { padding: 20px 18px 18px; }
+    .eras { padding: 0 16px 72px; }
+
+    /* Hero */
+    .hero { min-height: 40vh; padding: 48px 20px 40px; }
+    .hero-years { gap: 20px; }
+    .hero-years .line-between { width: 48px; }
+    .hero-years span { font-size: 22px; }
+
+    /* Cards */
+    .person { padding: 18px 16px 16px; }
     .gen-badge { display: none; }
-    .hero { min-height: 40vh; padding: 56px 20px 44px; }
+    .person-header { flex-direction: column; align-items: flex-start; gap: 3px; }
+    .person-header .year-range { font-size: 16px; }
+    .person-header h3 { font-size: 20px; }
+
+    /* Milestones — let pills wrap naturally on small screens */
+    .milestone { white-space: normal; }
+
+    /* Tabs */
+    .tab-pill-inner { width: 100%; }
+    .tab-btn { flex: 1; text-align: center; }
+
+    /* Era */
+    .era-title { font-size: 19px; }
+
+    /* Footer */
+    .footer { padding: 40px 20px; }
   }
 
   /* Password gate */
