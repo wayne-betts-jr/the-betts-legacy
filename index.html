@@ -330,10 +330,19 @@
     margin-bottom: 10px;
   }
 
-  .tab-bar {
+  .tab-pill {
     display: flex;
-    gap: 8px;
-    margin-bottom: 0;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .tab-pill-inner {
+    display: inline-flex;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 4px;
+    gap: 2px;
   }
 
   .tab-btn {
@@ -342,27 +351,18 @@
     font-weight: 600;
     letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 9px 20px;
-    border-radius: 8px 8px 0 0;
-    border: 1px solid var(--line);
-    border-bottom: none;
-    background: var(--bg-card);
+    padding: 8px 22px;
+    border-radius: 100px;
+    border: none;
+    background: transparent;
     color: var(--muted);
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
   }
 
   .tab-btn.active {
-    background: var(--bg-warm);
-    color: var(--accent);
-    border-color: var(--line);
-  }
-
-  .tab-content {
-    border: 1px solid var(--line);
-    border-radius: 0 8px 8px 8px;
-    background: var(--bg-warm);
-    padding: 24px;
+    background: var(--accent);
+    color: #fff;
   }
 
   .tab-panel { display: none; }
@@ -775,11 +775,13 @@
 
     <div class="connector"><div class="connector-line"></div></div>
 
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('wayne-jr', this)">Wayne Jr.</button>
-      <button class="tab-btn" onclick="switchTab('adam', this)">Adam</button>
+    <div class="tab-pill">
+      <div class="tab-pill-inner">
+        <button class="tab-btn active" onclick="switchTab('wayne-jr', this)">Wayne Jr.</button>
+        <button class="tab-btn" onclick="switchTab('adam', this)">Adam</button>
+      </div>
     </div>
-    <div class="tab-content">
+    <div>
 
       <!-- Wayne Jr. tab -->
       <div id="wayne-jr" class="tab-panel active">
