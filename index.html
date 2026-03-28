@@ -294,6 +294,24 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
+    align-items: start;
+  }
+
+  .lineage-main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sub-connector {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .siblings-sub {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
   .person.branch {
@@ -312,6 +330,7 @@
 
   @media (max-width: 640px) {
     .siblings { grid-template-columns: 1fr; }
+    .siblings-sub { grid-template-columns: 1fr; }
     .person { padding: 20px 18px 18px; }
     .gen-badge { display: none; }
     .hero { min-height: 40vh; padding: 56px 20px 44px; }
@@ -708,15 +727,47 @@
     <div class="connector"><div class="connector-line"></div></div>
 
     <div class="siblings">
-      <div class="person">
-        <div class="gen-badge">Gen XIV</div>
-        <div class="branch-label">First Son</div>
-        <div class="person-header">
-          <h3>Wayne Gardner Betts, Jr.</h3>
+      <div class="lineage-main">
+        <div class="person">
+          <div class="gen-badge">Gen XIV</div>
+          <div class="branch-label">First Son</div>
+          <div class="person-header">
+            <h3>Wayne Gardner Betts, Jr.</h3>
+          </div>
+          <p>The current steward of the Betts family legacy — carrying the line into its fifteenth generation.</p>
+          <div class="milestones">
+            <span class="milestone highlight">Current Steward</span>
+          </div>
         </div>
-        <p>The current steward of the Betts family legacy — carrying the line into its fifteenth generation.</p>
-        <div class="milestones">
-          <span class="milestone highlight">Current Steward</span>
+
+        <div class="sub-connector"><div class="connector-line"></div></div>
+
+        <div class="siblings-sub">
+          <div class="person">
+            <div class="gen-badge">Gen XV</div>
+            <div class="branch-label">First Son</div>
+            <div class="person-header">
+              <h3>Wayne Aidan Betts</h3>
+              <span class="year-range">b. 2024</span>
+            </div>
+            <p>The newest bearer of the Betts name — the fifteenth generation from an English village, and the next chapter of a family story five hundred years in the making.</p>
+            <div class="milestones">
+              <span class="milestone highlight">Fifteenth Generation</span>
+            </div>
+          </div>
+
+          <div class="person">
+            <div class="gen-badge">Gen XV</div>
+            <div class="branch-label">Second Son</div>
+            <div class="person-header">
+              <h3>Harrison Aubry Betts</h3>
+              <span class="year-range">b. 2017</span>
+            </div>
+            <p>Growing up in the long shadow of those who came before — patriots, inventors, and builders — Harrison carries the Betts legacy into a new generation.</p>
+            <div class="milestones">
+              <span class="milestone">Fifteenth Generation</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -728,37 +779,7 @@
           <span class="year-range">b. 1983</span>
         </div>
         <div class="milestones">
-          <span class="milestone">March 8, 1983</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="connector"><div class="connector-line"></div></div>
-
-    <div class="siblings">
-      <div class="person">
-        <div class="gen-badge">Gen XV</div>
-        <div class="branch-label">First Son</div>
-        <div class="person-header">
-          <h3>Wayne Aidan Betts</h3>
-          <span class="year-range">b. 2024</span>
-        </div>
-        <p>Born in the twenty-first century, the newest bearer of the Betts name — the fifteenth generation from an English village, and the next chapter of a family story five hundred years in the making.</p>
-        <div class="milestones">
-          <span class="milestone highlight">Fifteenth Generation</span>
-        </div>
-      </div>
-
-      <div class="person branch">
-        <div class="gen-badge">Gen XV</div>
-        <div class="branch-label">Second Son</div>
-        <div class="person-header">
-          <h3>Harrison Aubry Betts</h3>
-          <span class="year-range">b. 2017</span>
-        </div>
-        <p>Growing up in the long shadow of those who came before — patriots, inventors, and builders — Harrison carries the Betts legacy into a new generation.</p>
-        <div class="milestones">
-          <span class="milestone">Fifteenth Generation</span>
+          <span class="milestone">Son of Wayne Sr.</span>
         </div>
       </div>
     </div>
