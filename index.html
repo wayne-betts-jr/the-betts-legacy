@@ -517,9 +517,35 @@
 </div>
 
 <script>
-  window.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('gate').style.display = 'none';
-  });
+  (function() {
+    var gate = document.getElementById('gate');
+    var form = document.getElementById('gate-form');
+    var input = document.getElementById('gate-input');
+    var error = document.getElementById('gate-error');
+
+    if (sessionStorage.getItem('betts-access') === '1') {
+      gate.style.display = 'none';
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+
+    form.addEventListener('submit', function() {
+      if (input.value.trim().toLowerCase() === 'gardner') {
+        sessionStorage.setItem('betts-access', '1');
+        gate.style.display = 'none';
+        document.body.style.overflow = '';
+      } else {
+        input.classList.add('error');
+        error.classList.add('visible');
+        input.value = '';
+        setTimeout(function() {
+          input.classList.remove('error');
+          error.classList.remove('visible');
+        }, 2000);
+      }
+    });
+  })();
 </script>
 
 <header class="hero">
