@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Betts Family Lineage</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1c1917;
+    --body: #3d3730;
+    --bg: #ffffff;
+    --bg-warm: #faf8f5;
+    --bg-card: #f5f2ed;
+    --accent: #8b5e0b;
+    --accent-dark: #6b4a09;
+    --muted: #8c8279;
+    --line: #e2ddd6;
+    --era-puritan: #4a6741;
+    --era-revolution: #9b3535;
+    --era-industry: #2e5a8b;
+    --era-modern: #5c4a72;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 72px 24px 56px;
+    background: var(--bg-warm);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-eyebrow {
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 18px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent-dark);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-years {
+    margin-top: 40px;
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .hero-years span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .hero-years .line-between {
+    width: 100px;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .eras { max-width: 860px; margin: 0 auto; padding: 0 20px 100px; }
+
+  .era-block {
+    padding: 56px 0 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .era-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  .era-label.puritan { background: var(--era-puritan); }
+  .era-label.revolution { background: var(--era-revolution); }
+  .era-label.industry { background: var(--era-industry); }
+  .era-label.modern { background: var(--era-modern); }
+
+  .era-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+
+  .person {
+    background: var(--bg-warm);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 28px 24px;
+    position: relative;
+  }
+
+  .person-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .person-header h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .person-header .year-range {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .person-role {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-dark);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .person-spouse {
+    font-size: 13.5px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  .person-spouse::before {
+    content: '\221E\00a0';
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .person p {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--body);
+  }
+
+  .milestones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 14px;
+  }
+
+  .milestone {
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 4px 11px;
+    border-radius: 100px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    color: var(--body);
+    white-space: nowrap;
+  }
+
+  .milestone.highlight {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .gen-badge {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--line);
+    text-transform: uppercase;
+  }
+
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .connector-line {
+    width: 2px;
+    height: 32px;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--line) 0px, var(--line) 4px,
+      transparent 4px, transparent 8px
+    );
+  }
+
+  .footer-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 56px 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .footer .crest {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .footer p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .era-block:nth-child(1) { animation-delay: 0.1s; }
+  .era-block:nth-child(2) { animation-delay: 0.15s; }
+  .era-block:nth-child(3) { animation-delay: 0.2s; }
+  .era-block:nth-child(4) { animation-delay: 0.25s; }
+
+  @media (max-width: 640px) {
+    .person { padding: 20px 18px 18px; }
+    .gen-badge { display: none; }
+    .hero { min-height: 40vh; padding: 56px 20px 44px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-eyebrow">A Family Chronicle</div>
+  <h1>The House of <em>Betts</em></h1>
+  <p class="hero-sub">Thirteen generations from the fields of England to the founding of a nation — and beyond.</p>
+  <div class="hero-years">
+    <span>1480</span>
+    <div class="line-between"></div>
+    <span>Present</span>
+  </div>
+</header>
+
+<main class="eras">
+
+  <!-- ERA I -->
+  <section class="era-block">
+    <div class="era-label puritan">I · English Origins</div>
+    <div class="era-title">Kent &amp; Suffolk, England</div>
+
+    <div class="person">
+      <div class="gen-badge">Gen I</div>
+      <div class="person-header">
+        <h3>John Betts</h3>
+        <span class="year-range">1480 – 1550</span>
+      </div>
+      <div class="person-spouse">Elizabeth Wright</div>
+      <p>Born in Wortham, Suffolk. The earliest known ancestor of the Betts line. Father of Robert.</p>
+      <div class="milestones">
+        <span class="milestone">Wortham, Suffolk</span>
+        <span class="milestone">70 years</span>
+        <span class="milestone">12th great-grandfather</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen II</div>
+      <div class="person-header">
+        <h3>Robert Betts</h3>
+        <span class="year-range">1508 – 1572</span>
+      </div>
+      <div class="person-spouse">Agnes Terye · m. 1564</div>
+      <p>Born in Bearsted, Kent. Five children in sixteen years. Established the family's roots in Kent.</p>
+      <div class="milestones">
+        <span class="milestone">Bearsted, Kent</span>
+        <span class="milestone">64 years</span>
+        <span class="milestone">11th great-grandfather</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen III</div>
+      <div class="person-header">
+        <h3>Alexander Betts</h3>
+        <span class="year-range">1550 – 1594</span>
+      </div>
+      <div class="person-spouse">Jane Joan Larkyn · m. 1575</div>
+      <p>Born in West Peckham, Kent. Nine children in nineteen years. Father of Thomas, the emigrant who carried the family across the Atlantic.</p>
+      <div class="milestones">
+        <span class="milestone">West Peckham, Kent</span>
+        <span class="milestone">44 years</span>
+        <span class="milestone">10th great-grandfather</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERA II -->
+  <section class="era-block">
+    <div class="era-label puritan">II · Puritan Settlement</div>
+    <div class="era-title">Crossing to the New World</div>
+
+    <div class="person">
+      <div class="gen-badge">Gen IV</div>
+      <div class="person-header">
+        <h3>Thomas Betts I</h3>
+        <span class="year-range">1618 – 1688</span>
+      </div>
+      <div class="person-role">Immigrant Patriarch</div>
+      <div class="person-spouse">Mary · m. c. 1644</div>
+      <p>Sailed from England to Connecticut c. 1639 carrying a Bible printed in 1591. Co-founded Guilford, then became one of Norwalk's first settlers in 1660. Nine children. Given the honored "round seat" in the meeting house — the highest mark of respect.</p>
+      <div class="milestones">
+        <span class="milestone highlight">Arrived Connecticut 1639</span>
+        <span class="milestone highlight">Founder of Norwalk</span>
+        <span class="milestone">Freeman 1664</span>
+        <span class="milestone">Estate £146</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen V</div>
+      <div class="person-header">
+        <h3>Thomas Betts II</h3>
+        <span class="year-range">1644 – 1717</span>
+      </div>
+      <div class="person-role">Civic Leader &amp; Assemblyman</div>
+      <div class="person-spouse">Sarah Marvin · m. 1680</div>
+      <p>Selectman of Norwalk and elected Deputy to the Connecticut General Assembly across multiple sessions (1692–1707). Grew the family estate to £661. Addressed as "Mr." — a title reserved for men of high esteem.</p>
+      <div class="milestones">
+        <span class="milestone highlight">CT General Assembly</span>
+        <span class="milestone">Selectman 1701</span>
+        <span class="milestone">Estate £661</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen VI</div>
+      <div class="person-header">
+        <h3>Thomas Betts III</h3>
+        <span class="year-range">1682 – 1761</span>
+      </div>
+      <div class="person-role">Community Builder</div>
+      <div class="person-spouse">Deborah</div>
+      <p>First Betts to live his entire life in Norwalk. Granted rights to build and operate the town grist mill in 1709 — vital infrastructure for the growing community. Expanded into Canaan Parish (later New Canaan).</p>
+      <div class="milestones">
+        <span class="milestone highlight">Built Norwalk Grist Mill</span>
+        <span class="milestone">Canaan Parish Pioneer</span>
+        <span class="milestone">79 years</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERA III -->
+  <section class="era-block">
+    <div class="era-label revolution">III · Revolution</div>
+    <div class="era-title">From Colony to Nation</div>
+
+    <div class="person">
+      <div class="gen-badge">Gen VII</div>
+      <div class="person-header">
+        <h3>Thomas Betts IV</h3>
+        <span class="year-range">1717 – 1787</span>
+      </div>
+      <div class="person-role">Colonial Farmer &amp; Father of a Patriot</div>
+      <div class="person-spouse">Elizabeth "Betty" Benedict · m. 1748</div>
+      <p>Married into the prominent Benedict family. Raised six children through the French &amp; Indian War and the gathering storm of revolution. Survived the devastating British burning of Norwalk in July 1779. Died in a free United States.</p>
+      <div class="milestones">
+        <span class="milestone highlight">Survived Burning of Norwalk 1779</span>
+        <span class="milestone">French &amp; Indian War era</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen VIII</div>
+      <div class="person-header">
+        <h3>Capt. Hezekiah Betts</h3>
+        <span class="year-range">1760 – 1837</span>
+      </div>
+      <div class="person-role">Revolutionary War Hero</div>
+      <div class="person-spouse">Grace Hanford · m. 1785</div>
+      <p>Joined the Continental Army and rose to Captain. Led a daring night assault at the Siege of Yorktown on October 21, 1781, capturing a British position and sustaining a serious wound — days before Cornwallis surrendered. Returned a war hero. Eleven children, two became ministers.</p>
+      <div class="milestones">
+        <span class="milestone highlight">Siege of Yorktown 1781</span>
+        <span class="milestone highlight">Wounded in Action</span>
+        <span class="milestone">Continental Army Captain</span>
+        <span class="milestone">11 Children</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERA IV -->
+  <section class="era-block">
+    <div class="era-label industry">IV · Industry &amp; Innovation</div>
+    <div class="era-title">The Age of Invention</div>
+
+    <div class="person">
+      <div class="gen-badge">Gen IX</div>
+      <div class="person-header">
+        <h3>Henry Betts</h3>
+        <span class="year-range">b. 1794</span>
+      </div>
+      <div class="person-role">Inventor &amp; Industrial Chemist</div>
+      <p>Born in Norwalk to Hezekiah and Grace. Credited as the originator of the rotary printing press. Known as a noted inventor and chemist who also developed a process for making paper from straw.</p>
+      <div class="milestones">
+        <span class="milestone highlight">Rotary Printing Press</span>
+        <span class="milestone">Paper from Straw Process</span>
+        <span class="milestone">Norwalk, CT</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen X</div>
+      <div class="person-header">
+        <h3>Edgar Ketchum Betts</h3>
+        <span class="year-range">b. 1842</span>
+      </div>
+      <div class="person-role">Industrialist · Troy, New York</div>
+      <div class="person-spouse">Harriet Louisa Gardner</div>
+      <p>Moved to Troy, NY at age 14 and built a career in the collar manufacturing capital of America. Married Harriet, whose father Jefferson Gardner pioneered the collar industry and first applied sewing machines to collar production.</p>
+      <div class="milestones">
+        <span class="milestone highlight">Troy "Collar City" Industry</span>
+        <span class="milestone">Earl &amp; Wilson Co.</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen XI</div>
+      <div class="person-header">
+        <h3>Anson Gardner Betts</h3>
+        <span class="year-range">1876 – 1976</span>
+      </div>
+      <div class="person-role">Metallurgist &amp; Scientist</div>
+      <div class="person-spouse">Hattie Alice Ramsey</div>
+      <p>Yale Class of 1897, Columbia MA 1898. Invented the Betts electrolytic process for refining lead (patented 1901) — a landmark in industrial metallurgy. Developed zinc extraction processes. Authored <em>Lead Refining by Electrolysis</em> (1908). Lived to 100.</p>
+      <div class="milestones">
+        <span class="milestone highlight">Betts Process — Lead Refining</span>
+        <span class="milestone highlight">Yale &amp; Columbia</span>
+        <span class="milestone">Zinc Electrolysis 1905</span>
+        <span class="milestone">Published Author</span>
+        <span class="milestone">100 years</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ERA V -->
+  <section class="era-block">
+    <div class="era-label modern">V · Modern Service</div>
+    <div class="era-title">Into the Twentieth Century</div>
+
+    <div class="person">
+      <div class="gen-badge">Gen XII</div>
+      <div class="person-header">
+        <h3>Horace Gardner Betts</h3>
+        <span class="year-range">1921 – 2005</span>
+      </div>
+      <div class="person-role">WWII Navy Veteran · USS MacKenzie</div>
+      <div class="person-spouse">Gloria May Morton · m. 1950</div>
+      <p>Born in Hot Springs, NC. Enlisted in the U.S. Navy and served aboard destroyer USS MacKenzie (DD-614). Participated in convoy escorts, anti-submarine warfare, Operation Husky (Sicily), and Operation Dragoon (Southern France).</p>
+      <div class="milestones">
+        <span class="milestone highlight">Operation Husky — Sicily 1943</span>
+        <span class="milestone highlight">Operation Dragoon — France 1944</span>
+        <span class="milestone">USS MacKenzie DD-614</span>
+        <span class="milestone">Battle of the Atlantic</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen XIII</div>
+      <div class="person-header">
+        <h3>Wayne Gardner Betts, Sr.</h3>
+        <span class="year-range">b. 1951</span>
+      </div>
+      <p>Born April 23, 1951, in Greenfield, Massachusetts. Continued the family lineage, carrying forward the Betts name into the modern era.</p>
+      <div class="milestones">
+        <span class="milestone">Greenfield, MA</span>
+      </div>
+    </div>
+
+    <div class="connector"><div class="connector-line"></div></div>
+
+    <div class="person">
+      <div class="gen-badge">Gen XIV</div>
+      <div class="person-header">
+        <h3>Wayne Gardner Betts, Jr.</h3>
+      </div>
+      <p>The current steward of the Betts family legacy — fourteen generations from an English village to the present day.</p>
+      <div class="milestones">
+        <span class="milestone highlight">Current Generation</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="footer-wrap">
+  <footer class="footer">
+    <div class="crest">&#9884;</div>
+    <p>Faith · Fortitude · Service · Family<br><br>From a Puritan settler's prayer in 1639 to a captain's charge at Yorktown, from a chemist's laboratory to a destroyer in the Atlantic — the Betts family wove itself into the fabric of American history across five centuries.</p>
+  </footer>
+</div>
+
+</body>
+</html>
