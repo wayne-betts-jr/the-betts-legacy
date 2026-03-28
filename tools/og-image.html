@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>OG Image Generator — The Betts Legacy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #faf8f5; }
+
+#og {
+  width: 1200px;
+  height: 630px;
+  background: #faf8f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle warm vignette */
+#og::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(28,25,23,0.04) 100%);
+}
+
+/* Corner marks */
+.corner { position: absolute; width: 32px; height: 32px; opacity: 0.2; }
+.corner-tl { top: 40px; left: 40px; border-top: 1px solid #8b5e0b; border-left: 1px solid #8b5e0b; }
+.corner-tr { top: 40px; right: 40px; border-top: 1px solid #8b5e0b; border-right: 1px solid #8b5e0b; }
+.corner-bl { bottom: 40px; left: 40px; border-bottom: 1px solid #8b5e0b; border-left: 1px solid #8b5e0b; }
+.corner-br { bottom: 40px; right: 40px; border-bottom: 1px solid #8b5e0b; border-right: 1px solid #8b5e0b; }
+
+.title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  font-size: 96px;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  color: #1c1917;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.title em {
+  font-style: italic;
+  font-weight: 400;
+  color: #6b4a09;
+}
+
+.years {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: #6b6059;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 28px;
+  position: relative;
+  z-index: 1;
+}
+</style>
+</head>
+<body>
+
+<div id="og">
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <div class="title">The House of <em>Betts</em></div>
+  <div class="years">1480 &nbsp;—&nbsp; Present</div>
+</div>
+
+</body>
+</html>
