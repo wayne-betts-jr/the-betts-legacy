@@ -85,6 +85,7 @@ ${headContent}
     <button type="submit" id="gate-btn">Enter</button>
   </form>
   <div class="gate-error" id="gate-error">Incorrect passphrase</div>
+  <div style="position:fixed;bottom:12px;left:0;right:0;text-align:center;font-size:10px;color:#c8c3bc;letter-spacing:1px;">v${new Date().toISOString().slice(0,10).replace(/-/g,'.')}</div>
 </div>
 
 <div id="encrypted" style="display:none;">${ciphertext}</div>
