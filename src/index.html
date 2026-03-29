@@ -47,7 +47,7 @@
   footer { background: var(--bg-warm); }
 
   .hero {
-    min-height: 50vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,7 +55,7 @@
     text-align: center;
     padding: 72px 24px 56px;
     background: var(--bg-warm);
-    border-bottom: 1px solid var(--line);
+    position: relative;
   }
 
   .hero-eyebrow {
@@ -119,15 +119,28 @@
     background: var(--line);
   }
 
+  .scroll-indicator {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s, scrollBob 2s ease-in-out infinite 2s;
+  }
+  .scroll-indicator svg { display: block; }
+
+  @keyframes scrollBob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(7px); }
+  }
+
   .eras { padding-bottom: 100px; }
 
   .era-block {
     max-width: 860px;
     margin: 0 auto;
-    padding: 56px 20px 16px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.6s ease forwards;
+    padding: 56px 20px;
   }
 
   .era-label {
@@ -256,7 +269,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0;
   }
 
   .connector-line {
@@ -300,12 +312,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .era-block:nth-child(1) { animation-delay: 0.1s; }
-  .era-block:nth-child(2) { animation-delay: 0.15s; }
-  .era-block:nth-child(3) { animation-delay: 0.2s; }
-  .era-block:nth-child(4) { animation-delay: 0.25s; }
-  .era-block:nth-child(5) { animation-delay: 0.3s; }
-  .era-block:nth-child(6) { animation-delay: 0.35s; }
 
   .siblings {
     display: grid;
@@ -383,6 +389,124 @@
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
+  /* ---- Era transition interstitials ---- */
+  .era-transition-wrap {
+    position: relative;
+    padding: 48px 0;
+  }
+  .era-transition-wrap::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -56px;    /* bridge era-block padding-bottom of preceding section */
+    bottom: -56px; /* bridge era-block padding-top of following section */
+    width: 2px;
+    transform: translateX(-50%);
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--line) 0px, var(--line) 4px,
+      transparent 4px, transparent 8px
+    );
+  }
+  .era-transition-wrap.no-top-line {
+    padding-top: 0;
+  }
+  .era-transition-wrap.no-top-line::before {
+    display: none;
+  }
+  .era-transition-wrap.no-top-line .era-transition {
+    opacity: 1;
+  }
+  .era-transition-wrap.no-top-line .era-transition__text,
+  .era-transition-wrap.no-top-line .era-transition__header {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+  }
+
+  .era-transition {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .era-transition.visible { opacity: 1; }
+
+  .era-transition__img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    min-height: 130%;
+    object-fit: cover;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .era-transition__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(28,25,23,0.45) 0%,
+      rgba(28,25,23,0.65) 40%,
+      rgba(28,25,23,0.75) 70%,
+      rgba(28,25,23,0.85) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .era-transition__content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    z-index: 2;
+  }
+
+  .era-transition__text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    line-height: 1.85;
+    color: rgba(255,255,255,0.92);
+    max-width: 640px;
+    padding: 0 32px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1s ease 0.8s, transform 1s ease 0.8s;
+  }
+  .era-transition.visible .era-transition__text {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .era-transition__header {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1s ease 1.3s, transform 1s ease 1.3s;
+  }
+  .era-transition.visible .era-transition__header {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .era-transition__header .era-label {
+    margin-bottom: 8px;
+  }
+  .era-transition__header .era-title {
+    color: rgba(255,255,255,0.8);
+  }
+
+
   @media (max-width: 640px) {
     /* Layout */
     .siblings { grid-template-columns: 1fr; }
@@ -391,7 +515,7 @@
     .era-block { padding-left: 16px; padding-right: 16px; }
 
     /* Hero */
-    .hero { min-height: auto; padding: 48px 20px 40px; }
+    .hero { min-height: 100svh; padding: 48px 20px 40px; }
     .hero-years { gap: 20px; }
     .hero-years .line-between { width: 48px; }
     .hero-years span { font-size: 22px; }
@@ -415,6 +539,24 @@
 
     /* Footer */
     .footer-wrap { padding: 40px 20px; }
+
+    /* Era transitions */
+    .era-transition {
+      height: 100vh;
+    }
+    .era-transition__img--origins {
+      object-position: 65% 30%;
+    }
+    .era-transition__img--legacy {
+      object-position: 65% center;
+    }
+    .era-transition__content { gap: 32px; }
+    .era-transition__text {
+      font-size: 1rem;
+      padding: 0 24px;
+      max-width: 100%;
+      line-height: 1.75;
+    }
   }
 
   /* Password gate */
@@ -536,14 +678,38 @@
     <div class="line-between"></div>
     <span>Present</span>
   </div>
+  <div class="scroll-indicator" aria-hidden="true">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/>
+      <polyline points="19 12 12 19 5 12"/>
+    </svg>
+  </div>
 </header>
 
 <main class="eras">
 
-  <!-- ERA I -->
+  <!-- OPENING TRANSITION → English Origins -->
+  <div class="era-transition-wrap no-top-line">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/opening-to-origins.webp" type="image/webp" />
+        <img class="era-transition__img era-transition__img--origins" src="image/eras/opening-to-origins.png" alt="" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          Five hundred years ago, in the flat farmland of eastern England, a man named John Betts was born. This is what happened after.
+        </p>
+        <div class="era-transition__header">
+          <div class="era-label puritan">I · English Origins</div>
+          <div class="era-title">Kent &amp; Suffolk, England</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA I: English Origins -->
   <section class="era-block">
-    <div class="era-label puritan">I · English Origins</div>
-    <div class="era-title">Kent &amp; Suffolk, England</div>
 
     <div class="person">
       <div class="gen-badge">Gen I</div>
@@ -593,12 +759,31 @@
         <span class="milestone">10th great-grandfather</span>
       </div>
     </div>
+
   </section>
 
-  <!-- ERA II -->
+  <!-- TRANSITION: English Origins → Puritan Settlement (The Crossing) -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/origins-to-settlement.webp" type="image/webp" />
+        <img class="era-transition__img" src="image/eras/origins-to-settlement.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          In 1639, a young man sailed from England carrying a Bible printed before he was born. He would never go back.
+        </p>
+        <div class="era-transition__header">
+          <div class="era-label puritan">II · Puritan Settlement</div>
+          <div class="era-title">Crossing to the New World</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA II: The Crossing — Thomas I -->
   <section class="era-block">
-    <div class="era-label puritan">II · Puritan Settlement</div>
-    <div class="era-title">Crossing to the New World</div>
 
     <div class="person">
       <div class="gen-badge">Gen IV</div>
@@ -617,7 +802,26 @@
       </div>
     </div>
 
-    <div class="connector"><div class="connector-line"></div></div>
+  </section>
+
+  <!-- TRANSITION: Settlement Scene-Setter (The Norwalk Generations) -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/settlement-to-norwalk.webp" type="image/webp" />
+        <img class="era-transition__img" src="image/eras/settlement-to-norwalk.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          He landed on a wild coast and helped build a town from nothing. Four generations of his name would farm it, govern it, and grind its grain — until the night it burned.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA III: Norwalk Settlement — Thomas II, III, IV -->
+  <section class="era-block">
 
     <div class="person">
       <div class="gen-badge">Gen V</div>
@@ -653,12 +857,8 @@
         <span class="milestone">79 years</span>
       </div>
     </div>
-  </section>
 
-  <!-- ERA III -->
-  <section class="era-block">
-    <div class="era-label revolution">III · Revolution</div>
-    <div class="era-title">From Colony to Nation</div>
+    <div class="connector"><div class="connector-line"></div></div>
 
     <div class="person">
       <div class="gen-badge">Gen VII</div>
@@ -675,7 +875,30 @@
       </div>
     </div>
 
-    <div class="connector"><div class="connector-line"></div></div>
+  </section>
+
+  <!-- TRANSITION: Settlement → Revolution (Norwalk Burns) -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/settlement-to-revolution.webp" type="image/webp" />
+        <img class="era-transition__img" src="image/eras/settlement-to-revolution.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          For five generations, they built the town — its mill, its church, its fields. On a single night in July 1779, the British burned it all. What came next was war.
+        </p>
+        <div class="era-transition__header">
+          <div class="era-label revolution">III · Revolution</div>
+          <div class="era-title">From Colony to Nation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA IV: Revolution — Hezekiah -->
+  <section class="era-block">
 
     <div class="person">
       <div class="gen-badge">Gen VIII</div>
@@ -693,12 +916,33 @@
         <span class="milestone">12 Children</span>
       </div>
     </div>
+
   </section>
 
-  <!-- ERA IV -->
+  <!-- TRANSITION: Revolution → Industry -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/revolution-to-industry.webp" type="image/webp" />
+        <img class="era-transition__img" src="image/eras/revolution-to-industry.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          The guns went silent. The town rebuilt. And in the workshops along the river,
+          a new generation began tinkering with steam, steel, and ink — turning a young
+          republic into an industrial nation.
+        </p>
+        <div class="era-transition__header">
+          <div class="era-label industry">IV · Industry &amp; Innovation</div>
+          <div class="era-title">The Age of Invention</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA V: Industry — Henry -->
   <section class="era-block">
-    <div class="era-label industry">IV · Industry &amp; Innovation</div>
-    <div class="era-title">The Age of Invention</div>
 
     <div class="person">
       <div class="gen-badge">Gen IX</div>
@@ -716,7 +960,26 @@
       </div>
     </div>
 
-    <div class="connector"><div class="connector-line"></div></div>
+  </section>
+
+  <!-- TRANSITION: Henry → Edgar (Inventor to Industrial City) -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/henry-to-edgar.webp" type="image/webp" />
+        <img class="era-transition__img" src="image/eras/henry-to-edgar.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          The inventor died in a city he barely recognized. His son had made it the collar capital of America — and married into the family that started it all.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA VI: Edgar -->
+  <section class="era-block">
 
     <div class="person">
       <div class="gen-badge">Gen X</div>
@@ -734,7 +997,26 @@
       </div>
     </div>
 
-    <div class="connector"><div class="connector-line"></div></div>
+  </section>
+
+  <!-- TRANSITION: Edgar → Anson (Collar Factory to Chemistry Lab) -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/edgar-to-anson.webp" type="image/webp" />
+        <img class="era-transition__img" src="image/eras/edgar-to-anson.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          The collar factory held no interest for the eldest son. In a stone laboratory on his mother's property, he ran an electric current through dissolved metal — and changed an industry.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA VII: Anson -->
+  <section class="era-block">
 
     <div class="person">
       <div class="gen-badge">Gen XI</div>
@@ -754,12 +1036,31 @@
         <span class="milestone">99 years</span>
       </div>
     </div>
+
   </section>
 
-  <!-- ERA V -->
+  <!-- TRANSITION: Anson → Horace (Industry to War) -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/anson-to-horace.webp" type="image/webp" />
+        <img class="era-transition__img" src="image/eras/anson-to-horace.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          Two world wars drew a generation to sea. From the mountains of North Carolina to the deck of a destroyer, the Betts sons answered — all four of them.
+        </p>
+        <div class="era-transition__header">
+          <div class="era-label modern">V · Modern Service</div>
+          <div class="era-title">Into the Twentieth Century</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA VIII: Modern Service — Horace -->
   <section class="era-block">
-    <div class="era-label modern">V · Modern Service</div>
-    <div class="era-title">Into the Twentieth Century</div>
 
     <div class="person">
       <div class="gen-badge">Gen XII</div>
@@ -777,12 +1078,31 @@
         <span class="milestone">Four Battle Stars</span>
       </div>
     </div>
+
   </section>
 
-  <!-- ERA VI -->
+  <!-- TRANSITION: Horace → Wayne Sr. (The Story Goes Quiet) -->
+  <div class="era-transition-wrap">
+    <div class="era-transition">
+      <picture>
+        <source srcset="image/eras/horace-to-wayne.webp" type="image/webp" />
+        <img class="era-transition__img era-transition__img--legacy" src="image/eras/horace-to-wayne.png" alt="" loading="lazy" />
+      </picture>
+      <div class="era-transition__scrim"></div>
+      <div class="era-transition__content">
+        <p class="era-transition__text">
+          He came home from the war with stories his son would never receive. They lived in the same house, looked at the same photographs, sat at the same table. But no one signed the words, and no one wrote them down. The history was right there — visible, untranslated, and eventually forgotten.
+        </p>
+        <div class="era-transition__header">
+          <div class="era-label modern">VI · The Living Legacy</div>
+          <div class="era-title">A Legacy Rediscovered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERA IX: The Living Legacy -->
   <section class="era-block">
-    <div class="era-label modern">VI · The Living Legacy</div>
-    <div class="era-title">A Legacy Rediscovered</div>
 
     <div class="person">
       <div class="gen-badge">Gen XIII</div>
@@ -909,6 +1229,42 @@
     <p>Faith · Fortitude · Service · Family<br><br>From a Puritan settler's prayer in 1639 to a sergeant's charge at Yorktown, from a chemist's laboratory to a destroyer in the Atlantic — the Betts family wove itself into the fabric of American history across five centuries. The story was nearly lost. A Deaf son in a hearing household, a mother gone too soon, stories that passed through the air in a language no one translated. Then Wayne Jr. and Sophie went looking — and found everything.</p>
   </div>
 </footer>
+
+<script>
+(function () {
+  var transitions = document.querySelectorAll('.era-transition');
+  if (!transitions.length) return;
+
+  /* Fade in/out via IntersectionObserver */
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        entry.target.classList.toggle('visible', entry.isIntersecting);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+    transitions.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* Parallax — translate the oversized image on scroll */
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      transitions.forEach(function (el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) { ticking = false; return; }
+        var img = el.querySelector('.era-transition__img');
+        if (!img) return;
+        var progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        var shift = (progress - 0.5) * 66;
+        img.style.transform = 'translate(-50%, calc(-50% + ' + shift + 'px))';
+      });
+      ticking = false;
+    });
+  }, { passive: true });
+})();
+</script>
 
 </body>
 </html>
