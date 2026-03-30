@@ -70,7 +70,7 @@ function parseSource(html) {
 function buildOutput(headContent, ciphertext) {
   return `<!-- ENCRYPTED - Do not edit. Edit src/index.html instead. -->
 <!DOCTYPE html>
-<html lang="en" style="overflow-y:scroll;">
+<html lang="en">
 <head>
 ${headContent}
 </head>
@@ -138,13 +138,10 @@ ${headContent}
 
       var html = new TextDecoder().decode(decrypted);
 
-      // Keep gate visible as overlay while content loads beneath
-      var gate = document.getElementById('gate');
-      gate.style.position = 'fixed';
-      gate.style.inset = '0';
-      gate.style.zIndex = '9999';
-      gate.style.transition = 'opacity 0.4s ease';
+      // Prevent scroll during transition
+      document.body.style.overflow = 'hidden';
 
+      // Load content behind the gate (gate is already position:fixed via CSS)
       document.getElementById('encrypted').remove();
       document.body.insertAdjacentHTML('beforeend', html);
 
@@ -156,10 +153,17 @@ ${headContent}
         old.parentNode.replaceChild(s, old);
       });
 
-      // Fade out gate after content is ready
+      // Fade out gate after content is painted
+      var gate = document.getElementById('gate');
       requestAnimationFrame(function() {
-        gate.style.opacity = '0';
-        setTimeout(function() { gate.remove(); }, 400);
+        requestAnimationFrame(function() {
+          gate.style.transition = 'opacity 0.5s ease';
+          gate.style.opacity = '0';
+          setTimeout(function() {
+            gate.remove();
+            document.body.style.overflow = '';
+          }, 500);
+        });
       });
 
     } catch (err) {
