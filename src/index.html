@@ -266,6 +266,21 @@
     text-transform: uppercase;
   }
 
+  .person-profile {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+    margin-bottom: 6px;
+  }
+
+  .person.has-profile .year-range {
+    position: absolute;
+    top: 40px;
+    right: 28px;
+  }
+
   .connector {
     display: flex;
     align-items: center;
@@ -1018,8 +1033,9 @@
   <!-- ERA IV: Revolution — Hezekiah -->
   <section class="era-block">
 
-    <div class="person">
+    <div class="person has-profile">
       <div class="gen-badge">Gen IX</div>
+      <img class="person-profile" src="image/profile-hezekiah.png" alt="Hezekiah Betts" />
       <div class="person-header">
         <h3>Hezekiah Betts</h3>
         <span class="year-range">1760 – 1837</span>
@@ -1135,8 +1151,9 @@
   <!-- ERA VII: Anson -->
   <section class="era-block">
 
-    <div class="person">
+    <div class="person has-profile">
       <div class="gen-badge">Gen XII</div>
+      <img class="person-profile" src="image/profile-anson.png" alt="Anson Gardner Betts" />
       <div class="person-header">
         <h3>Anson Gardner Betts</h3>
         <span class="year-range">1876 – 1976</span>
@@ -1179,8 +1196,9 @@
   <!-- ERA VIII: Modern Service — Horace -->
   <section class="era-block">
 
-    <div class="person">
+    <div class="person has-profile">
       <div class="gen-badge">Gen XIII</div>
+      <img class="person-profile" src="image/profile-horace.png" alt="Horace Gardner Betts" />
       <div class="person-header">
         <h3>Horace Gardner Betts</h3>
         <span class="year-range">1921 – 2005</span>
@@ -1269,9 +1287,10 @@
 
       <!-- Wayne Jr. tab -->
       <div id="wayne-jr" class="tab-panel active">
-        <div class="person">
+        <div class="person has-profile">
           <div class="gen-badge">Gen XV</div>
           <div class="branch-label">First Son</div>
+          <img class="person-profile" src="image/profile-wayne-jr.png" alt="Wayne Gardner Betts, Jr." />
           <div class="person-header">
             <h3>Wayne Gardner Betts, Jr.</h3>
             <span class="year-range">b. 1981</span>
