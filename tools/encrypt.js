@@ -186,8 +186,8 @@ async function main() {
   if (!passphrase) {
     passphrase = await askPassphrase();
   }
-  if (!passphrase || passphrase.length < 8) {
-    die('Passphrase must be at least 8 characters.');
+  if (!passphrase || passphrase.length < 6) {
+    die('Passphrase must be at least 6 characters.');
   }
 
   // Parse and encrypt
