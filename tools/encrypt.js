@@ -138,16 +138,28 @@ ${headContent}
 
       var html = new TextDecoder().decode(decrypted);
 
-      document.getElementById('gate').remove();
-      document.getElementById('encrypted').remove();
+      // Keep gate visible as overlay while content loads beneath
+      var gate = document.getElementById('gate');
+      gate.style.position = 'fixed';
+      gate.style.inset = '0';
+      gate.style.zIndex = '9999';
+      gate.style.transition = 'opacity 0.4s ease';
 
-      document.body.innerHTML = html;
+      document.getElementById('encrypted').remove();
+      document.body.insertAdjacentHTML('beforeend', html);
 
       // Re-execute inline scripts
       document.body.querySelectorAll('script').forEach(function(old) {
+        if (old.closest('#gate')) return;
         var s = document.createElement('script');
         s.textContent = old.textContent;
         old.parentNode.replaceChild(s, old);
+      });
+
+      // Fade out gate after content is ready
+      requestAnimationFrame(function() {
+        gate.style.opacity = '0';
+        setTimeout(function() { gate.remove(); }, 400);
       });
 
     } catch (err) {
