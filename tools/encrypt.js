@@ -70,7 +70,7 @@ function parseSource(html) {
 function buildOutput(headContent, ciphertext) {
   return `<!-- ENCRYPTED - Do not edit. Edit src/index.html instead. -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="overflow-y:scroll;">
 <head>
 ${headContent}
 </head>
