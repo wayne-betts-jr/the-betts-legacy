@@ -105,7 +105,7 @@ ${headContent}
     btn.disabled = true;
 
     try {
-      var passphrase = input.value;
+      var passphrase = input.value.toLowerCase();
       var raw = atob(document.getElementById('encrypted').textContent);
       var payload = new Uint8Array(raw.length);
       for (var i = 0; i < raw.length; i++) payload[i] = raw.charCodeAt(i);
@@ -205,6 +205,7 @@ async function main() {
   if (!passphrase || passphrase.length < 6) {
     die('Passphrase must be at least 6 characters.');
   }
+  passphrase = passphrase.toLowerCase();
 
   // Parse and encrypt
   const { head, body } = parseSource(html);
